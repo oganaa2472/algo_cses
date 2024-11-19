@@ -7,10 +7,10 @@ long long solve(vector<long long>& dp,vector<long long>& coins,long long x){
 	if(dp[x]!=-1) return dp[x];
 	long long ans=0;
 	for(auto coin:coins){
-		ans+=solve(dp,coins,x-coin)%MOD;
+		ans=(ans+solve(dp,coins,x-coin))%MOD;
 	}
 	
-	return dp[x] = ans;
+	return dp[x] = ans%MOD;
 }
 int main() {
 	// your code goes here
