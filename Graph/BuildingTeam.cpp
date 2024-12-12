@@ -2,22 +2,13 @@
 using namespace std;
 bool isPossible=true;
 
-bool dfs(int u, int color, vector<int> &colors,
-                           vector<vector<int>> &adj) {
-
-    // Assign color to the current u
- 
-    colors[u] = color;
-
-    // Iterate through all adjacent vertices
-    for(auto &v : adj[u]) {
-        if(colors[v] == 0) {
-
-            
-            if(!dfs(v, color==1?2:1, colors, adj))
-                return false;
-        }
-        else if(colors[v] == color) {
+bool dfs(int i,int curr,vector<vector<int>>& adj,vector<int>& colors){
+    if(colors[i]!=0){
+            return colors[i]!=curr;
+    }
+    colors[i]=curr==1?2:1;
+    for(auto ch:adj[i]){
+        if(!dfs(ch,colors[i],adj,colors)){
             return false;
         }
     }
@@ -40,11 +31,7 @@ int main() {
     
     vector<int> colors(n+1,0);
 	for(int i =1;i<n+1&&isPossible;i++){
-	    if(colors[i] == 0) { 
-                
-            isPossible = dfs(i, 1, colors, adj);
-        }
-		
+		isPossible = dfs(i,0,adj,colors);
 	}
 	if(!isPossible){
 		cout<<"IMPOSSIBLE"<<endl;
