@@ -1,27 +1,27 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
-
-long long MOD = 1e9 + 7;
-
-long long solve(vector<long long>& dp,long long n){
+int mod = 1e9+7;
+int solve(int n,vector<int> dp){
+    if(n<0) return 0;
     if(n==0) return 1;
     if(dp[n]!=-1) return dp[n];
-    long long ans=0;
+    
+    int ans = 0;
     for(int i = 1;i<=6;i++){
         if(n-i>=0){
-            ans += solve(dp,n-i);
+            ans += solve(n-i,dp);
         }
+        
     }
-    dp[n] = ans%MOD;
-    return dp[n];
+    return dp[n] = ans%mod;   
 }
-
 int main() {
-    long long n;
-    cin >> n;
-    vector<long long> dp(n+1,-1);
-    long long answer = solve(dp,n);
-    cout<<answer<<endl;
-    return 0;
+	// your code goes here
+	int n;
+	cin>>n;
+	vector<int> dp(n+1,-1);
+	int answer = solve(n,dp);
+	cout<<answer<<endl;
+	
+
 }

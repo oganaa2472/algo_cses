@@ -1,26 +1,30 @@
 #include <bits/stdc++.h>
-const int MOD = 1e9+7;
 using namespace std;
-long long solve(vector<long long>& dp,vector<long long>& coins,long long x){
-	if(x<0) return 0;
-	if(x==0) return 1;
-	if(dp[x]!=-1) return dp[x];
-	long long ans=0;
-	for(auto coin:coins){
-		ans=(ans+solve(dp,coins,x-coin))%MOD;
-	}
-	
-	return dp[x] = ans%MOD;
+long long mod = 1e9+7;
+int solve(long long m,vector<long long>& dp,vector<long long>& coins){
+    if (m == 0) return 1; 
+    if (m < 0) return 0; 
+
+    if (dp[m] != -1) return dp[m];
+
+    long long res = 0;
+    for (long long coin : coins) {
+        res+=solve(m - coin, dp,coins);
+    }
+
+    return dp[m] = res%mod;
 }
 int main() {
 	// your code goes here
-	long long n,x;
-	cin>>n>>x;
+	long long n,m;
+	cin>>n>>m;
 	vector<long long> coins(n);
-	vector<long long> dp(x+1,-1);
-	for(int i = 0;i<n;i++) cin>>coins[i];
+	vector<long long> dp(m+1,-1);
+	for(int i=0;i<n;i++){
+	    cin>>coins[i];
+	}
+	int answer = solve(m,dp,coins);
+	cout<<answer<<endl;
 	
-	int ans = solve(dp,coins,x);
-	cout<<ans<<endl;
-	return 0;
+
 }
