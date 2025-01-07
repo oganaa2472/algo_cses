@@ -21,9 +21,9 @@ int main() {
             if (left >= 0) {
         	    dp[i][j] = max(dp[i][j], dp[i-1][left]+pages[i-1]);
             }
-            cout<<dp[i][j]<<" ";
+          
         }
-        cout<<endl;
+      
     }
     cout << dp[n][price] << endl;
   }
