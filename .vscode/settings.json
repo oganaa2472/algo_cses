@@ -4,6 +4,17 @@
         "ostream": "cpp",
         "iosfwd": "cpp",
         "vector": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "iostream": "cpp",
+        "__split_buffer": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "__hash_table": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "stack": "cpp",
+        "string_view": "cpp",
+        "unordered_map": "cpp",
+        "variant": "cpp"
     }
 }
