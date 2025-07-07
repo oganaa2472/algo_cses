@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-
+ 
 using namespace std;
 #define ll long long
 int main() {
@@ -7,7 +7,7 @@ int main() {
     cin>>n;
     vector<int> songs(n);
     for(int i =0;i<n;i++) cin>>songs[i];
-    unordered_set<int> seen;
+    set<int> seen;
     int left = 0;
     int right = 0;
     int maxLen = 0;
