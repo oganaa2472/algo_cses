@@ -14,7 +14,7 @@ int main() {
     while(right<n){
         if(seen.count(songs[right])==0){
             seen.insert(songs[right]);
-            maxLen = maxLen(right-left+1,maxLen);
+            maxLen = max(right-left+1,maxLen);
             right++;
         }else{
             seen.erase(songs[left]);
