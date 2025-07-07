@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
-int subarraySum(vector<int>& nums, int k) {
-        unordered_map<int,int> mp;
+long long subarraySum(vector<int>& nums, int k) {
+        unordered_map<long long,long long> mp;
         mp[0] = 1;
-        int prefix = 0;
-        int res = 0;
+        long long prefix = 0;
+        long long res = 0;
         for(int num:nums){
             prefix+=num;
             res=res+mp[prefix-k];
