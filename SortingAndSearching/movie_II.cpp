@@ -14,11 +14,9 @@ int main() {
 	}
 	sort(events.begin(),events.end());
 	multiset<int> times;
-	
 	for(int i = 1;i<=k;i++){
 	    times.insert(0);
 	}
-	
 	int answer =0;
 	for(auto [b,a]:events){
 	    auto it = times.upper_bound(a);

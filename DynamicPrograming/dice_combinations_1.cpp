@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+// top down
 int mod = 1e9+7;
 long long solve(int n, vector<long long>& dp){
     if(n==0) return 1;
@@ -16,6 +17,7 @@ int main() {
 	// your code goes here
     int n ;
     cin>>n;
+    // bottom up
     vector<long long> dp(n+1,0);
     dp[0] = 1;
     for(int i = 1;i<=n;i++){
