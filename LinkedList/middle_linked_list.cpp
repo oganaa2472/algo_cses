@@ -7,17 +7,14 @@ struct ListNode {
     ListNode(int x) : val(x), next(nullptr) {}
 };
 
-ListNode* reverseList(ListNode* head) {
-    ListNode* prev = nullptr;
-    ListNode* current = head;
-    while (current != nullptr) {
-        ListNode* forward = current->next;
-        current->next = prev;
-        prev = current;
-
-        current = forward;
+ListNode* middleNode(ListNode* head) {
+    ListNode* slow = head;
+    ListNode* fast = head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
     }
-    return prev;
+    return slow;
 }
 
 int main() {
