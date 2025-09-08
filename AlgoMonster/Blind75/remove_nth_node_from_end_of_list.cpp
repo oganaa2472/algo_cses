@@ -13,7 +13,7 @@ class Solution {
         ListNode* removeNthFromEnd(ListNode* head, int n) {
             // first idea was 
             // 3 //
-    
+
             ListNode* dummy = new ListNode(0);
             dummy->next = head;
             ListNode* fast = dummy;
