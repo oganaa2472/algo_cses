@@ -18,18 +18,18 @@ int main() {
             indegree[it]++;
         }
     }
-    queue<int> q;
+    priority_queue<int, vector<int>, greater<int>> pq;
     for(int i = 1;i<=n;i++){
-        if(indegree[i]==0) q.push(i);
+        if(indegree[i]==0) pq.push(i);
     }    
     vector<int> topo;
-    while(!q.empty()){
-        int f = q.front();
+    while(!pq.empty()){
+        int f = pq.top();
         topo.push_back(f);
-        q.pop();
+        pq.pop();
         for(auto it:adj[f]){
             indegree[it]--;
-            if(indegree[it]==0) q.push(it);
+            if(indegree[it]==0) pq.push(it);
         }
     }
     if(topo.size()==n){
