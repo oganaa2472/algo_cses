@@ -1,46 +1,46 @@
-#include <iostream>
-#include <vector>
-#include <algorithm> // For std::lower_bound
+#include <bits/stdc++.h>
+using namespace std;
 
 int main() {
-    // Optimize C++ I/O streams for speed
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
     int n;
-    std::cin >> n;
+    cin >> n;
+    vector<int> h(n);
+    for (int i = 0; i < n; i++) cin >> h[i];
 
-    // This vector will store the smallest ending element for
-    // increasing subsequences of a given length.
-    // We use long long because the heights can be large.
-    std::vector<long long> tails;
+    // adjacency list (possible glides)
+    vector<vector<int>> adj(n);
 
-    for (int i = 0; i < n; ++i) {
-        long long h;
-        std::cin >> h;
-        
-        // Negate the height to turn LDS into LIS
-        long long x = -h;
-
-        // Find the first element in tails that is >= x
-        // (i.e., not less than x)
-        auto it = std::lower_bound(tails.begin(), tails.end(), x);
-
-        if (it == tails.end()) {
-            // x is larger than all current "tails".
-            // This means we found a new, longer subsequence.
-            tails.push_back(x);
-        } else {
-            // We found an existing subsequence of some length
-            // that can now end with a smaller number (x).
-            // This gives us a better "platform" for future elements.
-            *it = x;
+    // stack for left glides
+    stack<int> st;
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && h[st.top()] < h[i]) {
+            adj[i].push_back(st.top()); // i can glide to st.top()
+            st.pop();
         }
+        if (!st.empty() && h[st.top()] > h[i]) {
+            adj[st.top()].push_back(i); // st.top() can glide to i
+        }
+        st.push(i);
     }
 
-    // The size of the tails vector is the length of the
-    // Longest Increasing Subsequence (of the negated numbers).
-    std::cout << tails.size() << "\n";
+    // dp[i] = max mountains from i
+    vector<int> dp(n, -1);
+    function<int(int)> dfs = [&](int u) {
+        if (dp[u] != -1) return dp[u];
+        int best = 1; // at least current mountain
+        for (int v : adj[u]) {
+            best = max(best, 1 + dfs(v));
+        }
+        return dp[u] = best;
+    };
 
-    return 0;
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        ans = max(ans, dfs(i));
+    }
+
+    cout << ans << "\n";
 }
