@@ -1,49 +1,57 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-int n;
-vector<vector<int>> adj;
-vector<int> dist;
-int farthestNode;
-int maxDist;
+const int MAXN = 200005;
+vector<int> adj[MAXN];
 
-void dfs(int node, int parent, int d) {
-    dist[node] = d;
+// maxDist: одоогийн олсон хамгийн хол зай
+// farthestNode: тэр хамгийн хол байгаа цэг
+int maxDist = -1;
+int farthestNode = -1;
+
+// u: одоогийн цэг, p: эцэг цэг, d: эхлэлээс ирсэн зай
+void dfs(int u, int p, int d) {
+    // Хэрэв одоогийн зай (d) нь бидний бүртгэсэн max-аас их байвал шинэчилнэ
     if (d > maxDist) {
         maxDist = d;
-        farthestNode = node;
+        farthestNode = u;
     }
-    for (int nei : adj[node]) {
-        if (nei == parent) continue;
-        dfs(nei, node, d + 1);
+    
+    for (int v : adj[u]) {
+        if (v != p) {
+            dfs(v, u, d + 1); // Цаашаа 1 алхам явах тул зайг (d+1) болгоно
+        }
     }
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
+    int n;
     cin >> n;
-    adj.assign(n + 1, {});
+
+    // Ирмэгүүдийг унших
     for (int i = 0; i < n - 1; i++) {
-        int a, b;
-        cin >> a >> b;
-        adj[a].push_back(b);
-        adj[b].push_back(a);
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
 
-    // 1️⃣ First DFS from node 1
-    dist.assign(n + 1, 0);
+    // АЛХАМ 1: 1-р цэгээс хамгийн хол цэгийг олох (A цэг)
     maxDist = -1;
-    dfs(1, -1, 0);
-    int u = farthestNode;
+    dfs(1, 0, 0); 
+    int nodeA = farthestNode;
 
-    // 2️⃣ Second DFS from u
-    dist.assign(n + 1, 0);
+    // АЛХАМ 2: Олсон A цэгээсээ хамгийн хол цэгийг олох (B цэг)
     maxDist = -1;
-    dfs(u, -1, 0);
-    int diameter = maxDist;
+    dfs(nodeA, 0, 0);
+    // Одоо maxDist дотор A-аас B хүртэлх зай буюу Диаметр хадгалагдаж байна
 
-    cout << diameter << "\n";
+    cout << maxDist << endl;
+
     return 0;
 }
