@@ -1,37 +1,44 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-vector<vector<int>> adj;
-vector<int> subordinates;
+void dfs(int parent, int child, const vector<vector<int>>& adj, vector<int>& result) {
+    // result[child] defaults to 0 (no direct subordinates initially)
+    for (int u : adj[child]) {
+        if (u == parent) continue;
 
-int dfs(int u) {
-    int count = 0; // number of subordinates
-    for (int v : adj[u]) {
-        count += 1 + dfs(v);
+        // 1. First recurse deeper to calculate the child's subtree
+        dfs(child, u, adj, result);
+
+        // 2. Add each child's total subtree (subordinates + the child itself (+1))
+        result[child] += result[u] + 1;
     }
-    subordinates[u] = count;
-    return count;
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    // Fast I/O for 2 * 10^5 constraints
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
     int n;
-    cin >> n;
-    adj.resize(n + 1);
-    subordinates.resize(n + 1);
+    if (!(cin >> n)) return 0;
 
-    for (int i = 2; i <= n; ++i) {
+    vector<vector<int>> adj(n + 1);
+    vector<int> result(n + 1, 0);
+
+    for (int i = 2; i <= n; i++) {
         int boss;
         cin >> boss;
         adj[boss].push_back(i);
+        adj[i].push_back(boss);
     }
 
-    dfs(1);
+    dfs(0, 1, adj, result);
 
-    for (int i = 1; i <= n; ++i)
-        cout << subordinates[i] << " ";
+    for (int i = 1; i <= n; i++) {
+        cout << result[i] << (i == n ? "" : " ");
+    }
     cout << "\n";
 
     return 0;
